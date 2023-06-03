@@ -1,8 +1,6 @@
 import * as React from "react";
 import {FormEvent, useEffect, useState} from "react";
 import {ITransaction} from "@/utils/interfaces/transaction.interface";
-import {useRouter} from "next/router";
-import {updateTransaction} from "@/utils/services/transactions";
 import moment from "moment";
 import {MainSection} from "@/components/test-transaction/MainSection";
 import awesomeAlert from "@/utils/functions/alert";
@@ -10,17 +8,17 @@ import {AlertTypeEnum} from "@/utils/enums/alertType";
 import {CircularProgress, Typography} from "@mui/material";
 import {IUpdateTransactionDto} from "@/utils/dto/transactions.dto";
 import Box from "@mui/material/Box";
+import {useRouter} from "next/router";
+import {HOME_ROUTE} from "@/utils/endpoints/routes";
 
-export default function TransactionShow() {
+export default function UpiCollect() {
     const [loading, setLoading] = useState(false)
     const [remainingTime, setRemainingTime] = useState(300);
     const router = useRouter()
-    const {id} = router.query;
-
     // @ts-ignore
     const transaction: ITransaction = {
         "_id": "6479f80028ce931be0ea7d13",
-        "order_id": "8224411252838l2lk",
+        "order_id": "822441125283",
         "setting": {
             "category": "P2",
             "upi_ids": [
@@ -48,7 +46,6 @@ export default function TransactionShow() {
         "updates": [],
         "amount_and_utr": "100_123456789119",
         "idx": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbW91bnQiOjEwMCwidXRyIjoiMTIzNDU2Nzg5MTE5IiwiaWF0IjoxNjg1NzE1MDIwfQ.BVfK-Jm657ZOc8xteV5sAADCBp4sxVMeySqaLgF7NSs",
-        "utr": "123456789119"
     }
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -60,24 +57,10 @@ export default function TransactionShow() {
             if (value) data[key] = value;
         });
         if (data.utr && data.utr.length === 12) {
-            updateTransaction(typeof id === "string" ? id : ':id', {utr: data.utr}).then(res => {
-                if (res?._id) {
-                    awesomeAlert({msg: 'UTR submit successfully', type: AlertTypeEnum.success})
-                    if (transaction?.redirect_url) {
-                        window.location.href = transaction.redirect_url
-                    } else {
-                        window.location.reload()
-                    }
-                    // @ts-ignore
-                } else if (typeof res?.message === 'string') {
-                    // @ts-ignore
-                    awesomeAlert({msg: res?.message, type: AlertTypeEnum.error})
-                }
-                return res
-            }).catch(err => {
-                setLoading(false)
-                console.error(err)
-            })
+            awesomeAlert({msg: 'UTR submit successfully', type: AlertTypeEnum.success})
+            setTimeout(() => {
+                router.push(HOME_ROUTE)
+            }, 1000)
         } else {
             awesomeAlert({msg: 'UTR Must Be 12 Digit only', type: AlertTypeEnum.error})
         }
