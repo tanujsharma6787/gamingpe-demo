@@ -10,6 +10,9 @@ import {IUpdateTransactionDto} from "@/utils/dto/transactions.dto";
 import Box from "@mui/material/Box";
 import {useRouter} from "next/router";
 import {HOME_ROUTE} from "@/utils/endpoints/routes";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/store";
+import {setBalance} from "@/store/auth/authSlice";
 
 export default function UpiQr() {
     const [loading, setLoading] = useState(false)
@@ -47,6 +50,10 @@ export default function UpiQr() {
         "amount_and_utr": "100_123456789119",
         "idx": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbW91bnQiOjEwMCwidXRyIjoiMTIzNDU2Nzg5MTE5IiwiaWF0IjoxNjg1NzE1MDIwfQ.BVfK-Jm657ZOc8xteV5sAADCBp4sxVMeySqaLgF7NSs",
     }
+    const dispatch = useDispatch()
+    const amount = useSelector((state: RootState) => state.auth.amount);
+    const balance = useSelector((state: RootState) => state.auth.balance);
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setLoading(true)
@@ -58,6 +65,7 @@ export default function UpiQr() {
         });
         if (data.utr && data.utr.length === 12) {
             awesomeAlert({msg: 'UTR submit successfully', type: AlertTypeEnum.success})
+            dispatch(setBalance(balance + amount))
             setTimeout(() => {
                 router.push(HOME_ROUTE)
             }, 1000)

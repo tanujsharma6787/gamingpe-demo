@@ -1,19 +1,21 @@
 import Typography from "@mui/material/Typography";
-import {isMobile} from "@/utils/functions/global";
 import Image from "next/image";
 import Box from "@mui/material/Box";
 import {useRouter} from "next/router";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/store";
+import {useEffect} from "react";
+import {setBalance} from "@/store/auth/authSlice";
 
 type LayoutProps = {
     children: React.ReactNode;
 };
 const Layout2 = ({children}: LayoutProps): JSX.Element => {
+    const balance = useSelector((state: RootState) => state.auth.balance);
 
     const router = useRouter()
-    const goToHome = () => router.push('/')
     return (
-        <main
-            className="flex min-h-screen text-white flex-col place-content-center items-center">
+        <main className="flex min-h-screen text-white flex-col place-content-center items-center">
             <Box sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -33,7 +35,7 @@ const Layout2 = ({children}: LayoutProps): JSX.Element => {
                     src='https://gamingpe.com/wp-content/uploads/2023/02/cropped-new-logo-FINAL-1.png'
                     alt='gamepe logo'/>
                 <Typography variant='h6' sx={{alignSelf: 'center'}}>
-                    Balance: 0.0
+                    Balance: {((balance || 0).toFixed(1)).toLocaleString()}
                 </Typography>
             </Box>
             {children}

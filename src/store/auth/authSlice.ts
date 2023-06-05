@@ -1,26 +1,25 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {IUser} from '@/utils/interfaces/user.interface';
 import {HYDRATE} from 'next-redux-wrapper';
 
 interface AuthState {
-    token: string | null;
-    user: IUser | null;
+    amount: number;
+    balance: number;
 }
 
 const initialState: AuthState = {
-    token: null,
-    user: null,
+    amount: 0,
+    balance: 0,
 };
 
 const authSlice = createSlice({
     name: 'auth',
     initialState: initialState,
     reducers: {
-        setToken(state, action: PayloadAction<string | null>) {
-            state.token = action.payload;
+        setAmount(state, action: PayloadAction<number>) {
+            state.amount = action.payload;
         },
-        setUser(state, action: PayloadAction<IUser | null>) {
-            state.user = action.payload;
+        setBalance(state, action: PayloadAction<number>) {
+            state.balance = action.payload;
         },
     },
     extraReducers(builder) {
@@ -34,5 +33,5 @@ const authSlice = createSlice({
     },
 });
 
-export const {setToken, setUser} = authSlice.actions;
+export const {setAmount, setBalance} = authSlice.actions;
 export default authSlice.reducer;

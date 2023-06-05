@@ -1,9 +1,8 @@
 import React, {useState} from "react";
 import {FormControl, FormControlLabel, Radio, RadioGroup, TextField} from "@mui/material";
 
-export const UpiCollect = () => {
+export default function UpiCollect() {
     const [paymentMethod, setPaymentMethod] = useState('');
-
     const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPaymentMethod(event.target.value);
     };
@@ -33,5 +32,4 @@ export const UpiCollect = () => {
             {/* Add the respective sections for PayPal and Net Banking details */}
         </div>
     );
-};
-
+}
