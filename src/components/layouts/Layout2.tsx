@@ -14,6 +14,7 @@ const Layout2 = ({children}: LayoutProps): JSX.Element => {
     const balance = useSelector((state: RootState) => state.auth.balance);
 
     const router = useRouter()
+    const goToHome = () => router.push('/')
     return (
         <main className="flex min-h-screen text-white flex-col place-content-center items-center">
             <Box sx={{
