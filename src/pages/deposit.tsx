@@ -162,7 +162,6 @@ export default function Home() {
             >
                 <UpiQr/>
             </Dialog>
-            <UpiCollect />
         </Layout2>
     )
 }
