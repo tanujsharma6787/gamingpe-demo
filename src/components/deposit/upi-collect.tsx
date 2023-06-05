@@ -10,6 +10,7 @@ import awesomeAlert from "@/utils/functions/alert";
 import {AlertTypeEnum} from "@/utils/enums/alertType";
 import {setBalance} from "@/store/auth/authSlice";
 import {HOME_ROUTE} from "@/utils/endpoints/routes";
+import ProgressBar from "@/components/prgressBar";
 
 const currencies = [
     {
@@ -18,10 +19,7 @@ const currencies = [
     },
 ]
 export default function UpiCollect() {
-    const [paymentMethod, setPaymentMethod] = useState('');
-    const handlePaymentMethodChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPaymentMethod(event.target.value);
-    };
+    const [step2, setStep2] = useState(false);
     const router = useRouter()
     const dispatch = useDispatch()
     const amount = useSelector((state: RootState) => state.auth.amount);
@@ -31,51 +29,73 @@ export default function UpiCollect() {
         dispatch(setBalance(balance + amount))
         setTimeout(() => {
             router.push(HOME_ROUTE)
-        }, 1000)
+        })
     }
     const moveToVerify = () => {
-
+        setStep2(true)
+        setTimeout(() => {
+            handleSubmit()
+        }, 5000)
     }
 
+
     return (
-        <Box sx={{px: 4, pt: 3, pb: 4}}>
-            <Typography variant="h5">Payment Details</Typography>
-            <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 4, mb: 3, px: 2}}>
-                <Box>UPI/BHIM</Box>
-                <Box>
-                    <Button color='success'>Change</Button>
-                </Box>
-            </Box>
-            <TextField
-                sx={{width: '100%'}}
-                id="outlined-select-currency"
-                select
-                variant='outlined'
-                label="Select your UPI app"
-                defaultValue="BHIM"
-            >
-                {currencies.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                    </MenuItem>
-                ))}
-            </TextField>
-            <FormControl sx={{width: '100%', my: 3}} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">Enter your UPI ID</InputLabel>
-                <OutlinedInput
-                    id="outlined-adornment-password"
-                    endAdornment={<InputAdornment position="end">@upi</InputAdornment>}
-                    label="Password"
-                />
-            </FormControl>
-            <Button
-                size='large'
-                sx={{textTransform: 'capitalize', px: 5}}
-                color='success'
-                onClick={moveToVerify}
-                variant='contained'>
-                Verify & Pay
-            </Button>
+        <Box sx={{px: 4, pt: 3, pb: 4, width: '400px'}}>
+            {!step2 ?
+                <>
+                    <Typography variant="h5">Payment Details</Typography>
+                    <Box sx={{display: 'flex', justifyContent: 'space-between', my: 4, px: 2}}>
+                        <Box>UPI/BHIM</Box>
+                    </Box>
+                    <TextField
+                        sx={{width: '100%'}}
+                        id="outlined-select-currency"
+                        select
+                        variant='outlined'
+                        label="Select your UPI app"
+                        defaultValue="BHIM"
+                    >
+                        {currencies.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                    <FormControl sx={{width: '100%', my: 3}} variant="outlined">
+                        <OutlinedInput
+                            placeholder='Enter your UPI ID'
+                            endAdornment={<InputAdornment position="end">@upi</InputAdornment>}
+                        />
+                    </FormControl>
+                    <Button
+                        size='large'
+                        sx={{textTransform: 'capitalize', px: 5}}
+                        color='success'
+                        onClick={moveToVerify}
+                        variant='contained'>
+                        Verify & Pay
+                    </Button>
+                </> :
+                <>
+                    <Typography variant="h5">Waiting for your confirmation</Typography>
+                    <Box sx={{py: 3}}>
+                        <Box>
+                            <Typography variant="overline" sx={{borderRadios: '15px', boxShadow: 1, p: 1}}>
+                                Step 1
+                            </Typography>
+                        </Box>
+                        <Box sx={{pb: 2, pt: 1}}>Go to your UPI app</Box>
+                        <Box>
+                            <Typography variant="overline" sx={{borderRadios: '15px', boxShadow: 1, p: 1}}>
+                                Step 2
+                            </Typography></Box>
+                        <Box sx={{pb: 2, pt: 1}}>Enter your PIN and Confirm</Box>
+                        <Box sx={{pt: 2}}>
+                            <ProgressBar duration={50000}/>
+                        </Box>
+                    </Box>
+                </>
+            }
         </Box>
     );
 }
