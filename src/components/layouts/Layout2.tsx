@@ -14,9 +14,12 @@ const Layout2 = ({children}: LayoutProps): JSX.Element => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 position: 'fixed',
-                top: '30px',
-                right: '50px',
-                left: '50px'
+                padding:'30px 50px 30px 50px',
+                zIndex: 9,
+                borderBottom: 1,
+                top: 0,
+                right: 0,
+                left: 0
             }}>
                 <Image
                     width={105}

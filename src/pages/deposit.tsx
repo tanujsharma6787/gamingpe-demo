@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import {Accordion, AccordionDetails, AccordionSummary, Button} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Button, Link} from "@mui/material";
 import {AccountBalance, CreditCard, Payment, QrCode} from "@mui/icons-material";
 import Layout2 from "@/components/layouts/Layout2";
 import ExpandMore from "@mui/icons-material/ExpandMore";
@@ -10,6 +10,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import {useTheme} from '@mui/material/styles';
 import UpiCollect from "@/pages/upi-collect";
 import Image from "next/image";
+import * as React from "react";
 
 const panelStyle = {mb: 1, width: '100%'}
 export default function Home() {
@@ -33,8 +34,8 @@ export default function Home() {
         };
     return (
         <Layout2>
-            <Box>
-                <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} sx={panelStyle}>
+            <Box sx={{minWidth: '80%', maxWidth: '90%', my: 20}}>
+                <Accordion expanded={true} sx={panelStyle}>
                     <AccordionSummary
                         expandIcon={<ExpandMore/>}
                         aria-controls="panel1a-content"
@@ -45,13 +46,26 @@ export default function Home() {
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        {
-                            ['PAYTM', 'G PAY', 'BHIM', 'Freecharge', 'PAYZAPP', 'PhonePe'].map((b, i) =>
-                                <Button key={i} onClick={handleClickOpen}>{b}</Button>)
-                        }
+                        <Box>
+                            {
+                                [...Array(10).fill(1)].map((_, i) =>
+                                    <Box onClick={handleClickOpen} sx={{cursor: 'pointer'}} key={i}
+                                         style={{
+                                             minWidth: '100px',
+                                             margin: '0 4px',
+                                             height: '50px',
+                                             position: 'relative',
+                                             display: 'inline-block'
+                                         }}>
+                                        <Image layout="fill" objectFit="contain" src={`/img/payment/${i + 1}.png`}
+                                               alt='payment-method'/>
+                                    </Box>
+                                )
+                            }
+                        </Box>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')} sx={panelStyle}>
+                <Accordion expanded={true} sx={panelStyle}>
                     <AccordionSummary
                         expandIcon={<ExpandMore/>}
                         aria-controls="panel2a-content"
@@ -71,7 +85,7 @@ export default function Home() {
                         </Button>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')} sx={panelStyle}>
+                <Accordion expanded={true} sx={panelStyle}>
                     <AccordionSummary
                         expandIcon={<ExpandMore/>}
                         aria-controls="panel2a-content"
@@ -83,12 +97,23 @@ export default function Home() {
                     </AccordionSummary>
                     <AccordionDetails>
                         {
-                            ['VISA'].map((b, i) =>
-                                <Button key={i}  variant='contained' >{b}</Button>)
+                            [...Array(12).fill(1)].map((_, i) =>
+                                <Box onClick={handleClickOpen} sx={{cursor: 'pointer'}} key={i}
+                                     style={{
+                                         minWidth: '100px',
+                                         margin: '0 4px',
+                                         height: '50px',
+                                         position: 'relative',
+                                         display: 'inline-block'
+                                     }}>
+                                    <Image layout="fill" objectFit="contain" src={`/img/depit-card/Layer ${i + 1}.png`}
+                                           alt='payment-method'/>
+                                </Box>
+                            )
                         }
                     </AccordionDetails>
                 </Accordion>
-                <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')} sx={panelStyle}>
+                <Accordion expanded={true} sx={panelStyle}>
                     <AccordionSummary
                         expandIcon={<ExpandMore/>}
                         aria-controls="panel2a-content"
@@ -100,8 +125,19 @@ export default function Home() {
                     </AccordionSummary>
                     <AccordionDetails>
                         {
-                            ['Net Banking',].map((b, i) =>
-                                <Button key={i} variant='contained' >{b}</Button>)
+                            [...Array(1).fill(1)].map((_, i) =>
+                                <Box onClick={handleClickOpen} sx={{cursor: 'pointer'}} key={i}
+                                     style={{
+                                         minWidth: '100px',
+                                         margin: '0 4px',
+                                         height: '50px',
+                                         position: 'relative',
+                                         display: 'inline-block'
+                                     }}>
+                                    <Image layout="fill" objectFit="contain" src={`/img/net-banking/${i + 1}.png`}
+                                           alt='payment-method'/>
+                                </Box>
+                            )
                         }
                     </AccordionDetails>
                 </Accordion>
