@@ -12,10 +12,38 @@ import {setBalance} from "@/store/auth/authSlice";
 import {HOME_ROUTE} from "@/utils/endpoints/routes";
 import ProgressBar from "@/components/prgressBar";
 
-const currencies = [
+const banks = [
     {
         value: 'BHIM',
         label: 'BHIM',
+    },
+    {
+        value: 'MobiKwik',
+        label: 'MobiKwik',
+    },
+    {
+        value: 'phonePe',
+        label: 'phonePe',
+    },
+    {
+        value: 'Freecharge',
+        label: 'Freecharge',
+    },
+    {
+        value: 'Paytm',
+        label: 'Paytm',
+    },
+    {
+        value: 'G Pay',
+        label: 'G Pay',
+    },
+    {
+        value: 'Buddy',
+        label: 'Buddy',
+    },
+    {
+        value: 'JioMoney',
+        label: 'JioMoney',
     },
 ]
 export default function UpiCollect() {
@@ -55,7 +83,7 @@ export default function UpiCollect() {
                         label="Select your UPI app"
                         defaultValue="BHIM"
                     >
-                        {currencies.map((option) => (
+                        {banks.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
                                 {option.label}
                             </MenuItem>

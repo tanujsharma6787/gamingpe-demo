@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import {Button, TextField} from "@mui/material";
-import {AccountBalance, CreditCard, Payment, QrCode} from "@mui/icons-material";
+import {AccountBalance, CreditCard, CurrencyBitcoin, Payment, QrCode} from "@mui/icons-material";
 import Layout2 from "@/components/layouts/Layout2";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
@@ -16,6 +16,7 @@ import {setAmount} from "@/store/auth/authSlice";
 import UpiCollect from "@/components/deposit/upi-collect";
 import DebitCard from "@/components/deposit/debit-card";
 import NetBanking from "@/components/deposit/net-banking";
+import Crypto from "@/components/deposit/crypto";
 
 
 const boxStyle = {
@@ -39,11 +40,14 @@ const typographyStyle = {
 }
 const typographyParentStyle = {mb: 2}
 
-type IDialogs = 'upi-qr' | 'upi-collect' | 'debit-card' | 'net-banking'
+type IDialogs = 'upi-qr' | 'upi-collect' | 'debit-card' | 'net-banking' | 'crypto'
+type ICryptoTypes = 'TRC' | 'USDT' | 'ERC' | ''
 
 export default function Home() {
     const [openUpiQr, setOpenUpiQr] = useState(false);
     const [openUpiCollect, setOpenUpiCollect] = useState(false);
+    const [cryptoType, setCryptoType] = useState<ICryptoTypes>('');
+    const [openCrypto, setOpenCrypto] = useState(false);
     const [openAmount, setOpenAmount] = useState(false);
     const [openDebitCard, setOpenDebitCard] = useState(false);
     const [openNetBanking, setOpenNetBanking] = useState(false);
@@ -68,6 +72,8 @@ export default function Home() {
             setOpenDebitCard(true);
         if (target === "net-banking")
             setOpenNetBanking(true);
+        if (target === "crypto")
+            setOpenCrypto(true);
     };
     const handleOpenAmount = () => {
         setOpenAmount(true)
@@ -77,6 +83,7 @@ export default function Home() {
         setOpenUpiCollect(false);
         setOpenDebitCard(false);
         setOpenNetBanking(false);
+        setOpenCrypto(false);
     };
 
     return (
@@ -214,6 +221,43 @@ export default function Home() {
                         )
                     }
                 </Box>
+                <Box sx={boxStyle}>
+                    <Box sx={typographyParentStyle}>
+                        <Typography sx={typographyStyle}>
+                            <CurrencyBitcoin sx={{mr: 1}}/><b>Crypto</b>
+                        </Typography>
+                    </Box>
+                    {
+                        [...Array(3).fill(1)].map((_, i) =>
+                            <Box
+                                onClick={() => {
+                                    setTarget('crypto')
+                                    setCryptoType(i === 0 ? 'TRC' :
+                                        i === 1 ? 'USDT' :
+                                            i === 2 ? 'ERC' : ''
+                                    )
+                                    handleOpenAmount()
+                                }}
+                                key={i}
+                                sx={{
+                                    minWidth: '80px',
+                                    background: '#fff',
+                                    cursor: 'pointer',
+                                    borderRadius: `${theme.shape.borderRadius}px`,
+                                    height: '50px',
+                                    mr: 2,
+                                    position: 'relative',
+                                    display: 'inline-block'
+                                }}>
+                                <Image layout="fill"
+                                       style={{padding: '7px'}}
+                                       objectFit="contain"
+                                       src={`/img/crypto/${i + 1}.png`}
+                                       alt='payment-method'/>
+                            </Box>
+                        )
+                    }
+                </Box>
             </Box>
 
             <Dialog
@@ -250,6 +294,15 @@ export default function Home() {
                 aria-labelledby="responsive-dialog-title"
             >
                 <NetBanking/>
+            </Dialog>
+
+            <Dialog
+                fullScreen={fullScreen}
+                open={openCrypto}
+                onClose={handleCloseDialog}
+                aria-labelledby="responsive-dialog-title"
+            >
+                <Crypto cryptoType={cryptoType}/>
             </Dialog>
 
             <Dialog
