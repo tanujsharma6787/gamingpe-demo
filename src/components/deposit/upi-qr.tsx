@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import {useRouter} from "next/router";
 import {HOME_ROUTE} from "@/utils/endpoints/routes";
 
-export default function UpiCollect() {
+export default function UpiQr() {
     const [loading, setLoading] = useState(false)
     const [remainingTime, setRemainingTime] = useState(300);
     const router = useRouter()

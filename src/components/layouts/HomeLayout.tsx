@@ -8,7 +8,8 @@ type LayoutProps = {
 const HomeLayout = ({children}: LayoutProps): JSX.Element => {
 
     return (
-        <main className="flex min-h-screen text-white bg-blue-400 flex-col place-content-center items-center">
+        <main style={{backgroundColor: 'var(--primary)'}}
+              className="flex min-h-screen text-white flex-col place-content-center items-center">
             <Typography variant='h6' sx={{position: 'fixed', top: '30px', right: '30px'}}>
                 Balance: 0.0
             </Typography>
