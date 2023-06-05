@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import {Button} from "@mui/material";
+import {Button, TextField} from "@mui/material";
 import {AccountBalance, CreditCard, Payment, QrCode} from "@mui/icons-material";
 import Layout2 from "@/components/layouts/Layout2";
 import Typography from "@mui/material/Typography";
@@ -10,14 +10,14 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import {useTheme} from '@mui/material/styles';
 import UpiQr from "@/components/deposit/upi-qr";
 import Image from "next/image";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/store";
 import {setAmount} from "@/store/auth/authSlice";
-import CustomizedDialogs from "@/components/deposit/amount-dialog";
 
 
 const boxStyle = {
-    // backgroundColor: '#ef5520',
-    backgroundColor: '#222831',
+    backgroundColor: '#ef5520',
+    // backgroundColor: '#222831',
     mb: 3,
     pb: 4,
     width: '100%',
@@ -44,10 +44,16 @@ export default function Home() {
     const [openAmount, setOpenAmount] = useState(false);
     const [openDebitCard, setOpenDebitCard] = useState(false);
     const [openNetBanking, setOpenNetBanking] = useState(false);
+    const [a, setA] = useState<string | number>('');
     const [target, setTarget] = useState<'' | IDialogs>('');
+
+    const amount = useSelector((state: RootState) => state.auth.amount);
+    const dispatch = useDispatch()
+    const setAmountValue = (val: number) => {
+        dispatch(setAmount(val))
+    }
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const dispatch = useDispatch()
 
     const handleOpenDialog = () => {
         setOpenAmount(false)
@@ -222,7 +228,21 @@ export default function Home() {
                 onClose={handleCloseDialog}
                 aria-labelledby="responsive-dialog-title"
             >
-                <CustomizedDialogs />
+                <Box sx={{px: 4, py: 4, minWidth: '300px'}}>
+                    <Typography variant="h5">Amount</Typography>
+                    <TextField sx={{my: 3}} placeholder='amount' type='number'
+                               onChange={(event) => setA(event.target.value)}/>
+                    <Box sx={{color: 'var(--primary)'}}>
+                        <Button
+                            sx={{textTransform: 'capitalize', px: 5}}
+                            color='success'
+                            variant='contained'
+                            onClick={() => {
+                                setAmountValue(typeof a === 'string' ? parseInt(a) : a)
+                                handleOpenDialog()
+                            }}>Pay</Button>
+                    </Box>
+                </Box>
             </Dialog>
         </Layout2>
     )

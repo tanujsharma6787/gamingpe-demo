@@ -18,6 +18,11 @@ export default function UpiQr() {
     const [loading, setLoading] = useState(false)
     const [remainingTime, setRemainingTime] = useState(300);
     const router = useRouter()
+
+    const dispatch = useDispatch()
+    const amount = useSelector((state: RootState) => state.auth.amount);
+    const balance = useSelector((state: RootState) => state.auth.balance);
+
     // @ts-ignore
     const transaction: ITransaction = {
         "_id": "6479f80028ce931be0ea7d13",
@@ -43,17 +48,13 @@ export default function UpiQr() {
             "is_active": false,
             "qrcode_url": "upi://pay?pa=9888168256@paytm&pn=gb%20gc&mc=0000&mode=02&purpose=00&orgid=159761",
         },
-        "amount": 100,
+        "amount": amount,
         "status": "failed",
         "is_claimed": false,
         "updates": [],
         "amount_and_utr": "100_123456789119",
         "idx": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbW91bnQiOjEwMCwidXRyIjoiMTIzNDU2Nzg5MTE5IiwiaWF0IjoxNjg1NzE1MDIwfQ.BVfK-Jm657ZOc8xteV5sAADCBp4sxVMeySqaLgF7NSs",
     }
-    const dispatch = useDispatch()
-    const amount = useSelector((state: RootState) => state.auth.amount);
-    const balance = useSelector((state: RootState) => state.auth.balance);
-
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setLoading(true)
@@ -64,7 +65,7 @@ export default function UpiQr() {
             if (value) data[key] = value;
         });
         if (data.utr && data.utr.length === 12) {
-            awesomeAlert({msg: 'UTR submit successfully', type: AlertTypeEnum.success})
+            awesomeAlert({msg: 'Balance added successfully', type: AlertTypeEnum.success})
             dispatch(setBalance(balance + amount))
             setTimeout(() => {
                 router.push(HOME_ROUTE)
