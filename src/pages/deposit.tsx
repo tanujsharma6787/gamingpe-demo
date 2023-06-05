@@ -4,7 +4,7 @@ import {AccountBalance, CreditCard, Payment, QrCode} from "@mui/icons-material";
 import Layout2 from "@/components/layouts/Layout2";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import {useState} from "react";
+import {FormEvent, useState} from "react";
 import Dialog from '@mui/material/Dialog';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {useTheme} from '@mui/material/styles';
@@ -13,6 +13,9 @@ import Image from "next/image";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/store";
 import {setAmount} from "@/store/auth/authSlice";
+import UpiCollect from "@/components/deposit/upi-collect";
+import DebitCard from "@/components/deposit/debit-card";
+import NetBanking from "@/components/deposit/net-banking";
 
 
 const boxStyle = {
@@ -125,7 +128,7 @@ export default function Home() {
                     {
                         [...Array(1).fill(1)].map((_, i) =>
                             <Box onClick={() => {
-                                setTarget('upi-qr')
+                                setTarget('upi-collect')
                                 handleOpenAmount()
                             }} key={i}
                                  sx={{
@@ -163,7 +166,7 @@ export default function Home() {
                         {
                             [...Array(3).fill(1)].map((_, i) =>
                                 <Box onClick={() => {
-                                    setTarget('upi-qr')
+                                    setTarget('debit-card')
                                     handleOpenAmount()
                                 }} sx={{cursor: 'pointer'}} key={i}
                                      style={{
@@ -190,7 +193,7 @@ export default function Home() {
                     {
                         [...Array(1).fill(1)].map((_, i) =>
                             <Box onClick={() => {
-                                setTarget('upi-qr')
+                                setTarget('net-banking')
                                 handleOpenAmount()
                             }} key={i}
                                  sx={{
@@ -224,11 +227,42 @@ export default function Home() {
 
             <Dialog
                 fullScreen={fullScreen}
+                open={openUpiCollect}
+                onClose={handleCloseDialog}
+                aria-labelledby="responsive-dialog-title"
+            >
+                <UpiCollect/>
+            </Dialog>
+
+            <Dialog
+                fullScreen={fullScreen}
+                open={openDebitCard}
+                onClose={handleCloseDialog}
+                aria-labelledby="responsive-dialog-title"
+            >
+                <DebitCard/>
+            </Dialog>
+
+            <Dialog
+                fullScreen={fullScreen}
+                open={openNetBanking}
+                onClose={handleCloseDialog}
+                aria-labelledby="responsive-dialog-title"
+            >
+                <NetBanking/>
+            </Dialog>
+
+            <Dialog
+                fullScreen={fullScreen}
                 open={openAmount}
                 onClose={handleCloseDialog}
                 aria-labelledby="responsive-dialog-title"
             >
-                <Box sx={{px: 4, py: 4, minWidth: '300px'}}>
+                <Box component='form' onSubmit={(e: FormEvent<HTMLFormElement>) => {
+                    e.preventDefault()
+                    setAmountValue(typeof a === 'string' ? parseInt(a) : a)
+                    handleOpenDialog()
+                }} sx={{px: 4, py: 4, minWidth: '300px'}}>
                     <Typography variant="h5">Amount</Typography>
                     <TextField sx={{my: 3}} placeholder='amount' type='number'
                                onChange={(event) => setA(event.target.value)}/>
@@ -236,11 +270,8 @@ export default function Home() {
                         <Button
                             sx={{textTransform: 'capitalize', px: 5}}
                             color='success'
-                            variant='contained'
-                            onClick={() => {
-                                setAmountValue(typeof a === 'string' ? parseInt(a) : a)
-                                handleOpenDialog()
-                            }}>Pay</Button>
+                            type='submit'
+                            variant='contained'>Pay</Button>
                     </Box>
                 </Box>
             </Dialog>
