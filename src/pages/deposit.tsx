@@ -317,7 +317,7 @@ export default function Home() {
                     handleOpenDialog()
                 }} sx={{px: 4, py: 4, minWidth: '300px'}}>
                     <Typography variant="h5">Amount</Typography>
-                    <TextField sx={{my: 3}} placeholder='amount' type='number'
+                    <TextField sx={{my: 3}} required={true} placeholder='amount' type='number'
                                onChange={(event) => setA(event.target.value)}/>
                     <Box sx={{color: 'var(--primary)'}}>
                         <Button
