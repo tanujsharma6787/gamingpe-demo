@@ -10,10 +10,15 @@ export const langEn: ILang = {
     "Click Here": "Click Here",
     "Submit": "Submit",
     "Payment Process:": "Payment Process:",
-    "Scan QR Code or copy UPI Id": "Scan QR Code or copy UPI Id",
-    "After paying from your payment apps: PayTM,PhonePE, GooglePay,BHIM,etc.": "After paying from your payment apps: PayTM,PhonePE, GooglePay,BHIM,etc.",
-    "Submit the correct UTR code": "Submit the correct UTR code",
-
+    "Scan QR Code or copy UPI Id":
+        "Scan the QR code or copy the provided UPI ID.",
+    "After paying from your payment apps: PayTM,PhonePE, GooglePay,BHIM,etc.":
+        "Open your payment app (PayTM, PhonePE, GooglePay, BHIM, etc.) and select the \"Send Money\" or \"UPI Payment\" option.",
+    "Submit the correct UTR code":
+        "Enter the payment amount. Then, review the payment details and complete the transaction.",
+    "Amount": "Amount",
+    "Timer": "Timer",
+    "Payment Data": "Payment Data",
 }
 export const langTamil: ILang = {
     "Scan QR Code To Pay": "பணம் செலுத்த QR குறியீட்டை ஸ்கேன் செய்யவும்",
@@ -29,6 +34,9 @@ export const langTamil: ILang = {
     "Scan QR Code or copy UPI Id": "QR కోడ్‌ని స్కాన్ చేయండి లేదా UPI Idని కాపీ చేయండి",
     "After paying from your payment apps: PayTM,PhonePE, GooglePay,BHIM,etc.": "మీ చెల్లింపు యాప్‌ల నుండి చెల్లించిన తర్వాత: PayTM,PhonePE, GooglePay, BHIM, మొదలైనవి.",
     "Submit the correct UTR code": "సరైన UTRని సమర్పించండి",
+    "Amount": "మొత్తం",
+    "Timer": "టైమర్",
+    "Payment Data": "கட்டணத் தரவு",
 }
 export const langTelgu: ILang = {
     "Scan QR Code To Pay": "చెల్లించడానికి QR కోడ్‌ని స్కాన్ చేయండి",
@@ -44,5 +52,8 @@ export const langTelgu: ILang = {
     "Scan QR Code or copy UPI Id": "QR குறியீட்டை ஸ்கேன் செய்யவும் அல்லது UPI ஐடியை நகலெடுக்கவும்",
     "After paying from your payment apps: PayTM,PhonePE, GooglePay,BHIM,etc.": "உங்கள் பேமெண்ட் ஆப்ஸிலிருந்து பணம் செலுத்திய பிறகு: PayTM,PhonePE, GooglePay, BHIM போன்றவை.",
     "Submit the correct UTR code": "சரியான UTR ஐ சமர்ப்பிக்கவும்",
+    "Amount": "தொகை",
+    "Timer": "டைமர்",
+    "Payment Data": "చెల్లింపు డేటా",
 }
 

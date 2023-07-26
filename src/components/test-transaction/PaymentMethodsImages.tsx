@@ -29,8 +29,9 @@ export const PaymentMethodsImages = ({transaction}: PaymentMethodsImagesProps) =
         imgUrl: asset('img/payment-method/upi-icon.png'), link: link('upi')
     },]
     return (<>
-        {paymentMethods.map((p, i) => <Link key={i} href={p.link} target="_balnk">
-            <Image width={35} height={35} key={i} src={p.imgUrl} alt={p.imgUrl}/>
-        </Link>)}
+        {  paymentMethods.map((p, i) =>
+            <Image style={{borderRadius: '50%', overflow: 'hidden'}}
+                   key={i} width={26} height={26} src={p.imgUrl} alt={p.imgUrl}/>)
+        }
     </>)
 }

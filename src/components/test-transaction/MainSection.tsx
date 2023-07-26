@@ -70,6 +70,8 @@ export const MainSection = ({transaction, onSubmit, loading}: MainSectionProps) 
     const [lang, setLang] = React.useState('En');
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openLang = Boolean(anchorEl);
+    const upiId = transaction?.setting?.active_upi_id
+    const qrCodeUrl = transaction?.bank_account?.qrcode_url
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
@@ -89,28 +91,15 @@ export const MainSection = ({transaction, onSubmit, loading}: MainSectionProps) 
         return () => clearInterval(intervalId);
     }, [])
 
-    return <div className='payment'>
-        <div id="loader"></div>
-        <div id="notification"></div>
-
+    return <Box className='payment'>
         <Box id="payment-form" component="form" method="post" onSubmit={onSubmit}>
             <div className="container">
-                <div className="nav">
-                    <div className="time">
-                        <Image width={22} height={19} src={asset('icons/stopwatch-solid.svg')} alt='time-icon'/>
-                        <span id="time">
-                            {Math.floor(remainingTime / 60)}:{remainingTime % 60 < 10 ? `0${remainingTime % 60}` : remainingTime % 60}
-                        </span>
-                    </div>
-                    <div className="lang d-desktop ms-auto">
-                        <span id="english" onClick={() => handleClose('En')} className="selected">En</span>
-                        <span id="tamil" onClick={() => handleClose('தா')}>தா</span>
-                        <span id="telgu" onClick={() => handleClose('తెలుగు')}>తెలుగు</span>
-                    </div>
-                    <div className="dropdown d-mobile ms-auto">
+                <div className="nav text-primary">
+                    <div style={{fontSize: '20px'}}>{$t('Payment Data')}</div>
+                    <div className="dropdown ms-auto">
                         <button className="" type="button" id="lang-dropdown" onClick={handleClick}
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span>Lang: </span>
+                            <span>{lang} </span>
                             <Image style={{display: 'inline-block', marginRight: '5px'}} width={20} height={20}
                                    src={asset('icons/iconmonstr-globe-6.svg')} alt='time-icon'/>
                             <span id="lang_text2">{$t(anchorEl || 'En')}</span>
@@ -134,62 +123,61 @@ export const MainSection = ({transaction, onSubmit, loading}: MainSectionProps) 
                 </div>
             </div>
             <div className="container pb-5">
-                <div className="main-row">
-                    <div>
-                        <h2 className="text-center price f-40 d-mobile">₹ {PriceFormatter(transaction?.amount)}</h2>
-                        <div className="qrcode-container">
-                            <p className="translateText f-20"
-                               style={{marginBottom: '10px'}}>{$t("Scan QR Code To Pay")}</p>
-                            <div className="payment-method d-desktop my-3">
-                                <PaymentMethodsImages transaction={transaction}/>
-                            </div>
-                            <div className="qrcode">
-                                {transaction?.bank_account?.qrcode_url ? <Box sx={{
-                                    borderRadius: '30px', p: 5, mx: 'auto', background: 'white', display: 'inline-block'
-                                }}>
-                                    <QRCode size={300} value={`${transaction?.bank_account?.qrcode_url}`}/>
-                                </Box> : $t('Image Is Missing')}
-                            </div>
-                            <div className="dont-use-text mt-1">
-                                <span
-                                    className="translateText f-10">{$t("Don't use the same QR code to pay multiple times")}</span>
-                            </div>
+                <div className="main-row mx-auto pt-7">
+                    <Box sx={{
+                        color: '#FFF',
+                        backgroundImage: `url(${asset('img/price-bg.svg')})`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'contain',
+                        padding: '24px 20px',
+                        margin: '0 auto',
+                        width: '346px',
+                        height: '202px'
+                    }}>
 
-                            <div className="copy-upi d-mobile d-flex justify-content-center my-4 gap-2">
-                                <CopyAll onClick={() => copyToClipboard(transaction?.bank_account?.upi_id)}/>
-                                <Box
-                                    style={{
-                                        display: 'inline-block', wordBreak: 'break-word', fontSize: 'medium',
-                                    }}
-                                    className="f-16"
-                                    id="opportunity_bank">{transaction?.bank_account?.upi_id}</Box>
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            flexWrap: 'nowrap',
+                            justifyContent: 'space-between',
+                        }}>
+                            <h2 className="text-center">
+                                <span className='f-16'>{$t('Amount')} </span>
+                                <span className='font-bold f-24'> {PriceFormatter(transaction?.amount)} ₹</span>
+                            </h2>
+                            <div className='f-16'>
+                                {$t('Timer')} {`${Math.floor(remainingTime / 60)}:${(remainingTime % 60).toString().padStart(2, '0')}`}
                             </div>
-                        </div>
-                        <div className="payment-method d-mobile my-3">
+                        </Box>
+                        <Box className="payment-method my-4">
                             <PaymentMethodsImages transaction={transaction}/>
+                        </Box>
+                        <Box className="f-20 text-center font-bold copy-upi d-flex justify-content-center my-4 gap-2">
+                            <CopyAll sx={{mr: 2}} onClick={() => copyToClipboard(upiId)}/>
+                            <Box
+                                style={{
+                                    display: 'inline-block', wordBreak: 'break-word', fontSize: 'medium',
+                                }}
+                                className="f-16"
+                                id="opportunity_bank">{upiId}</Box>
+                            {/*<p className="f-16">Ref. #{transaction?._id}</p>*/}
+                        </Box>
+                    </Box>
+                    <div className="qrcode-container">
+                        <p className="translateText f-20"
+                           style={{marginTop: '25px'}}>{$t("Scan QR Code To Pay")}</p>
+                        <div className="qrcode">
+                            {qrCodeUrl ? <Box sx={{pt: 2, mx: 'auto', display: 'inline-block'}}>
+                                <QRCode size={200} value={`${qrCodeUrl}`}/>
+                            </Box> : $t('Image Is Missing')}
                         </div>
-                        <div className="secure-list d-desktop mt-2">
-                            <div className="grid">
-                                <SecurePaymentImages/>
-                            </div>
-                            <h6 className="translateText f-10 text-center mt-2">{$t("100% Secure Payments")}</h6>
+                        <div className="dont-use-text mt-1">
+                            <span className="translateText f-10">
+                                {$t("Don't use the same QR code to pay multiple times")}
+                            </span>
                         </div>
                     </div>
                     <div>
-                        <div className="d-desktop">
-                            <h2 className="price f-40">₹ {PriceFormatter(transaction?.amount)}</h2>
-                            <p className="f-16">Ref. #{transaction?.order_id}</p>
-                            <div className="copy-upi d-flex my-4 gap-2">
-                                <CopyAll sx={{mx: 1, cursor: 'pointer'}}
-                                         onClick={() => copyToClipboard(transaction?.bank_account?.upi_id)}/>
-                                <Box
-                                    style={{
-                                        display: 'inline-block', wordBreak: 'break-word', fontSize: 'medium',
-                                    }}
-                                    className="f-16"
-                                    id="opportunity_bank">{transaction?.bank_account?.upi_id}</Box>
-                            </div>
-                        </div>
                         <div className="utr-input">
                             <div id="handler" className="padd-tp Confirm">
                                 <div className="inputUTR">
@@ -200,9 +188,9 @@ export const MainSection = ({transaction, onSubmit, loading}: MainSectionProps) 
                                     <input type="hidden" name="id" id="id" value={transaction?._id}/>
                                 </div>
                             </div>
-                            <div className="text-left pl-1" style={{margin: '10px 0'}}>
-                                <p className="translateText m-0 pt-1 f-10">{$t("Please Check your payment application for UTR number")}</p>
-                                <div className="m-0 pt-1 f-10">
+                            <div className="inline-block mx-auto text-left pl-1">
+                                <p className="translateText text-left m-0 pt-1 f-10">{$t("Please Check your payment application for UTR number")}</p>
+                                <div className="m-0 pt-1 text-left f-10">
                                     <span className="translateText">{$t("How to find the UTR number ?")} </span>
                                     <a className="" data-toggle="modal"
                                        data-target="#exampleModalLong"
@@ -216,16 +204,21 @@ export const MainSection = ({transaction, onSubmit, loading}: MainSectionProps) 
                                 <LoadingButton type="submit" variant='contained' color='inherit'
                                                loading={loading}
                                                sx={{
-                                                   my: 4,
-                                                   background: 'white',
-                                                   color: 'var(--primary)',
-                                                   width: '300px'
+                                                   my: 2,
+                                                   background: '#376BF5',
+                                                   color: 'white',
+                                                   width: '200px',
                                                }}>
                                     {$t("Submit")}
                                 </LoadingButton>
                             </div>
                         </div>
-                        <div className="payment-process mt-4">
+                        <div className="payment-process mx-auto mt-4 text-white" style={{
+                            maxWidth: '346px',
+                            background: '#376BF5',
+                            borderRadius: '20px',
+                            padding: '17px 20px',
+                        }}>
                             <div>
                                 <h3 className="translateText f-16 font-weight-bold">{$t("Payment Process:")}</h3>
                             </div>
@@ -255,8 +248,8 @@ export const MainSection = ({transaction, onSubmit, loading}: MainSectionProps) 
                                 <div className="f-14 translateText">{$t("Submit the correct UTR code")}</div>
                             </div>
                         </div>
-                        <div className="secure-list d-mobile mt-2">
-                            <div className="grid">
+                        <div className="secure-list mt-6 text-center">
+                            <div className="flex">
                                 <SecurePaymentImages/>
                             </div>
                             <h6 className="translateText f-14 mt-2">{$t("100% Secure Payments")}</h6>
@@ -276,5 +269,5 @@ export const MainSection = ({transaction, onSubmit, loading}: MainSectionProps) 
             </Modal>
 
         </Box>
-    </div>
+    </Box>
 }

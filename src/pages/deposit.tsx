@@ -129,6 +129,43 @@ export default function Home() {
                 <Box sx={boxStyle}>
                     <Box sx={typographyParentStyle}>
                         <Typography sx={typographyStyle}>
+                            <QrCode sx={{mr: 1}}/><b>BANGLA QR</b>
+                        </Typography>
+                    </Box>
+                    <Box sx={{
+                        textAlign: 'center',
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: '15px',
+                    }}>
+                        {
+                            [...Array(1).fill(1)].map((_, i) =>
+                                <Box onClick={() => {
+                                    setTarget('upi-qr')
+                                    handleOpenAmount()
+                                }} key={i}
+                                     sx={{
+                                         minWidth: '80px',
+                                         background: '#fff',
+                                         cursor: 'pointer',
+                                         borderRadius: `${theme.shape.borderRadius}px`,
+                                         height: '50px',
+                                         overflow:'hidden',
+                                         position: 'relative',
+                                         display: 'inline-block'
+                                     }}>
+                                    <Image layout="fill"
+                                           objectFit="contain"
+                                           src={`/img/bangla-qr/bangla-qr-payment.jpg`}
+                                           alt='payment-method'/>
+                                </Box>
+                            )
+                        }
+                    </Box>
+                </Box>
+                <Box sx={boxStyle}>
+                    <Box sx={typographyParentStyle}>
+                        <Typography sx={typographyStyle}>
                             <Payment sx={{mr: 1}}/><b>UPI Collect</b>
                         </Typography>
                     </Box>
