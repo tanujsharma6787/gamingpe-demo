@@ -19,9 +19,8 @@ export default function Home() {
                 </Link>
                 <Link href="#" underline="none">
                     <Button variant='contained'
-                            sx={btnStyle}
+                            sx={{...btnStyle,opacity:0.4}}
                             color='success'
-                            disabled={true}
                             size='large'>Payout</Button>
                 </Link>
             </Box>
