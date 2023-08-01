@@ -17,7 +17,7 @@ const HomeLayout = ({children}: LayoutProps): JSX.Element => {
     }
 
     return (
-        <main style={{backgroundColor: 'var(--primary)'}}
+        <main style={{backgroundColor: 'var(--primary)', backgroundImage: `url('bg.png')`, backgroundSize: 'cover'}}
               className="flex min-h-screen text-white flex-col place-content-center items-center">
             <Typography variant='h6' sx={{position: 'fixed', top: '30px', right: '30px'}}>
                 <span onClick={resetBalance}>Balance</span>: {((balance || 0).toFixed(1)).toLocaleString()}
@@ -27,7 +27,7 @@ const HomeLayout = ({children}: LayoutProps): JSX.Element => {
                 <Image
                     width={315}
                     height={198}
-                    src='https://gamingpe.com/wp-content/uploads/2023/02/cropped-new-logo-FINAL-1.png'
+                    src="logo.png"
                     alt='gamepe logo'/>
             </h1>
             {children}

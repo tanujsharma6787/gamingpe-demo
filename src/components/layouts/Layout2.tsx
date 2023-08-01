@@ -33,7 +33,7 @@ const Layout2 = ({children}: LayoutProps): JSX.Element => {
                     width={105}
                     onClick={() => goToHome()}
                     height={66}
-                    src='https://gamingpe.com/wp-content/uploads/2023/02/cropped-new-logo-FINAL-1.png'
+                    src="logo.png"
                     alt='gamepe logo'/>
                 <Typography variant='h6' sx={{alignSelf: 'center'}}>
                     Balance: {((balance || 0).toFixed(1)).toLocaleString()}
