@@ -27,7 +27,7 @@ const HomeLayout = ({children}: LayoutProps): JSX.Element => {
                 <Image
                     width={315}
                     height={198}
-                    src="logo.png"
+                    src='https://gamingpe.com/wp-content/uploads/2023/02/cropped-new-logo-FINAL-1.png'
                     alt='gamepe logo'/>
             </h1>
             {children}
