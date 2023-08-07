@@ -28,6 +28,42 @@ const banks = [
         label: 'Yes Bank',
         value: 'Yes Bank'
     },
+    {
+        label: 'IDFC FIRST BANK',
+        value: 'IDFC FIRST BANK'
+    },
+    {
+        label: 'AU SMALL FINANCE BANK',
+        value: 'AU SMALL FINANCE BANK'
+    },
+    {
+        label: 'INDUSIND BANK',
+        value: 'INDUSIND BANK'
+    },
+    {
+        label: 'STATE BANK OF INDIA',
+        value: 'STATE BANK OF INDIA'
+    },
+    {
+        label: 'Bank of Baroda',
+        value: 'Bank of Baroda'
+    },
+    {
+        label: 'Punjab National Bank',
+        value: 'Punjab National Bank'
+    },
+    {
+        label: 'Union Bank of India',
+        value: 'Union Bank of India'
+    },
+    {
+        label: 'Axis Bank',
+        value: 'Axis Bank'
+    },
+    {
+        label: 'Other Bank',
+        value: 'Other Bank'
+    },
 ]
 export default function DebitCard() {
     const router = useRouter()
